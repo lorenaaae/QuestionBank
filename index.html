@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能刷题助手 - 艺考冲刺版</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 AI 智能刷题助手</h1>
+        
+        <div id="uploadStep" class="card">
+            <h3>1. 上传真题文档</h3>
+            <p style="color: #718096; font-size: 0.9rem; margin-bottom: 15px;">支持 PDF 或 TXT，AI 将自动分析格式并生成 2026 押题卷</p>
+            <input type="file" id="fileInput" accept=".pdf,.txt">
+            <button class="primary-btn" onclick="processFile()">开始智能命题</button>
+            <div id="loading" style="display:none; margin-top: 15px;">⏳ AI 正在深度解析并出题，请稍候...</div>
+        </div>
+
+        <div id="quizStep" class="card" style="display:none;">
+            <h2 id="paperTitle"></h2>
+            <div id="questionContainer">
+                </div>
+        
+
+            <div class="button-group">
+                <button id="prevBtn" class="secondary-btn" onclick="changeQuestion(-1)">上一题</button>
+                <button id="nextBtn" class="primary-btn" onclick="changeQuestion(1)">下一题</button>
+                <button id="exportBtn" class="secondary-btn" onclick="exportFullExam()">导出 PDF 卷子</button>
+                <button id="submitBtn" class="success-btn" style="display:none;" onclick="showResult()">提交试卷并 AI 批改</button>
+            </div>
+        </div>
+
+        <div id="resultStep" class="card" style="display:none;">
+            <h3>📊 AI 批改报告</h3>
+            <div id="reportCard">
+                </div>
+            <button class="secondary-btn" style="margin-top: 20px; width: 100%;" onclick="location.reload()">返回重新练习</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.min.js" crossorigin="anonymous"></script>
+    <script>
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.worker.min.js';
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
