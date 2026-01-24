@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能刷题助手 - 艺考冲刺版</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div id="authOverlay">
+        <div class="auth-card">
+            <h2>🎓 系统激活</h2>
+            <input type="text" id="regUser" placeholder="输入你的昵称" class="auth-input">
+            <input type="password" id="regKey" placeholder="DeepSeek API Key" class="auth-input">
+            
+            <button onclick="handleRegister()" class="btn-primary" style="width:100%; height:55px; font-size:18px;">
+                开启 AI 刷题之旅
+            </button>
+            
+            <p style="color:rgba(255,255,255,0.6); font-size:13px; margin-top:20px;">
+                <i class="fas fa-shield-alt"></i> 密钥仅保存在您的本地浏览器
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <h1>🎓 AI 智能刷题助手</h1>
+        
+        <div id="uploadStep" class="card">
+            <h3>1. 上传真题文档</h3>
+            <p>支持 PDF 或 TXT，AI 将自动分析格式并生成 2026 押题卷</p>
+            
+            <div class="file-upload-wrapper">
+                <span class="file-upload-icon" id="uploadIcon">📄</span>
+                <span class="file-upload-text" id="fileNameDisplay">点击或拖拽文件到这里</span>
+                <input type="file" id="fileInput" accept=".pdf,.txt" onchange="updateFileName()">
+            </div>
+
+            <button class="primary-btn" onclick="processFile()">开始智能命题</button>
+            <div id="loading" style="display:none; margin-top: 15px;">⏳ AI 正在深度解析...</div>
+        </div>
+
+        <div id="analysisStep" style="display:none;" class="card">
+            <h3 style="color: #f0e7ff;">📑 第一阶段：真题文档深度诊断</h3>
+            <div id="analysisContent" style="padding: 15px; border-radius: 8px; font-family: monospace;"></div>
+            <hr>
+            <div style="text-align:center;">
+                <button onclick="generateExam()" class="btn-primary">结构对齐无误，开始联网命题</button>
+            </div>
+        </div>
+
+        <div id="quizStep" class="card" style="display:none;">
+            <h2 id="paperTitle"></h2>
+            <div id="questionContainer">
+                </div>
+        
+
+            <div class="button-group">
+                <button id="prevBtn" class="secondary-btn" onclick="changeQuestion(-1)">上一题</button>
+                <button id="nextBtn" class="primary-btn" onclick="changeQuestion(1)">下一题</button>
+                <button id="exportBtn" class="secondary-btn" onclick="exportFullExam()">导出 PDF 卷子</button>
+                <button id="submitBtn" class="success-btn" style="display:none;" onclick="showResult()">提交试卷并 AI 批改</button>
+            </div>
+        </div>
+
+        <div id="resultStep" class="card" style="display:none;">
+            <h3>📊 AI 批改报告</h3>
+            <div id="reportCard">
+                </div>
+            <button class="secondary-btn" style="margin-top: 20px; width: 100%;" onclick="location.reload()">返回重新练习</button>
+        </div>
+    </div>
+    <div id="loadingOverlay">
+        <div class="loader"></div>
+        <p id="loadingMsg" style="color:white; margin-top:15px;"></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.min.js" crossorigin="anonymous"></script>
+    <script>
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.worker.min.js';
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
